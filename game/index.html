@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taco Truck Rush — a taco food-truck game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="truck">
+  <header id="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">🌮</span>
+      <div>
+        <h1>Taco Truck Rush</h1>
+        <p class="tagline">Grill it. Chop it. Stack it. Serve it fast.</p>
+      </div>
+    </div>
+    <div class="hud">
+      <div class="hud-box" id="hud-timer" title="Time left in the shift">
+        <span class="hud-label">SHIFT</span>
+        <span id="timer">2:00</span>
+      </div>
+      <div class="hud-box" title="Coins earned">
+        <span class="hud-label">COINS</span>
+        <span id="coins">0</span>
+      </div>
+      <div class="hud-box" title="Combo: serves in a row without a mistake">
+        <span class="hud-label">COMBO</span>
+        <span id="combo">x1</span>
+      </div>
+      <div class="hud-box" title="Tacos served">
+        <span class="hud-label">SERVED</span>
+        <span id="served">0</span>
+      </div>
+    </div>
+  </header>
+
+  <section id="orders" aria-label="Order board">
+    <h2>ORDER BOARD</h2>
+    <div id="order-slots"></div>
+  </section>
+
+  <main id="kitchen">
+    <section class="station" id="grill-station" aria-label="Grill">
+      <h3>🔥 GRILL <span class="hint">click beef to start, click again when golden</span></h3>
+      <div class="slots" id="grill-slots"></div>
+      <button class="bin" id="bin-beef" data-item="beef">
+        <span class="bin-icon beef-icon"></span>Beef patty
+      </button>
+    </section>
+
+    <section class="station" id="chop-station" aria-label="Chopping board">
+      <h3>🔪 CHOP BOARD <span class="hint">click a topping, wait, click to collect</span></h3>
+      <div class="slots" id="chop-slots"></div>
+      <div class="bins">
+        <button class="bin" data-item="tomato"><span class="bin-icon tomato-icon"></span>Tomato</button>
+        <button class="bin" data-item="onion"><span class="bin-icon onion-icon"></span>Onion</button>
+        <button class="bin" data-item="lettuce"><span class="bin-icon lettuce-icon"></span>Lettuce</button>
+      </div>
+    </section>
+
+    <section class="station" id="plate-station" aria-label="Assembly plate">
+      <h3>🍽️ ASSEMBLY PLATE <span class="hint">tortilla first, then stack it up</span></h3>
+      <div id="plate">
+        <div id="plate-items"><span class="plate-empty">Empty plate — start with a tortilla</span></div>
+      </div>
+      <div class="bins">
+        <button class="bin" id="bin-tortilla" data-item="tortilla"><span class="bin-icon tortilla-icon"></span>Tortilla</button>
+        <button class="bin" data-item="cheese"><span class="bin-icon cheese-icon"></span>Cheese</button>
+        <button class="bin" data-item="salsa"><span class="bin-icon salsa-icon"></span>Salsa</button>
+      </div>
+      <div class="plate-actions">
+        <button id="serve-btn" disabled>SERVE TACO →</button>
+        <button id="trash-btn">🗑 Clear plate</button>
+      </div>
+    </section>
+  </main>
+
+  <section id="tray" aria-label="Ready tray">
+    <h3>READY TRAY <span class="hint">grilled &amp; chopped food lands here — click to add to the plate</span></h3>
+    <div id="tray-items"><span class="tray-empty">Nothing ready yet</span></div>
+  </section>
+
+  <div id="toast" aria-live="polite"></div>
+
+  <div id="overlay" class="overlay">
+    <div class="overlay-card">
+      <h2 id="overlay-title">🌮 Taco Truck Rush</h2>
+      <p id="overlay-text">The lunch rush is on! Take orders from the board, grill the beef,
+        chop the toppings, stack the taco on the plate and serve it before the
+        customer loses patience. Serve the exact order to earn coins — wrong
+        tacos cost coins and break your combo. 120 seconds on the clock.</p>
+      <button id="start-btn">START SHIFT</button>
+      <p class="overlay-stats" id="overlay-stats"></p>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+/* Taco Truck Rush — food-truck street style: warm reds, sunny yellows, chalkboard board. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+  background: #2b1a12;
+  background-image: radial-gradient(circle at 20% 10%, #4a2c1c 0, transparent 55%),
+    radial-gradient(circle at 85% 90%, #572f18 0, transparent 50%);
+  color: #fff8ec;
+  min-height: 100vh;
+}
+#truck { max-width: 1180px; margin: 0 auto; padding: 12px 16px 24px; }
+
+/* ---- top bar ---- */
+#topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { font-size: 44px; filter: drop-shadow(0 3px 0 rgba(0,0,0,.35)); }
+h1 { font-size: 30px; letter-spacing: 1px; color: #ffd23f; text-shadow: 0 2px 0 #7a1f1f; }
+.tagline { font-size: 13px; color: #ffcf9e; }
+.hud { display: flex; gap: 10px; }
+.hud-box {
+  background: #fff8ec; color: #3a1d0d; border-radius: 12px; padding: 8px 14px;
+  min-width: 92px; text-align: center; box-shadow: 0 3px 0 #c98a2e;
+}
+.hud-box.low { background: #ff5a4e; color: #fff; animation: pulse .5s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.06); } }
+.hud-label { display: block; font-size: 10px; letter-spacing: 2px; color: #a06a2c; font-weight: 700; }
+.hud-box.low .hud-label { color: #ffe1de; }
+#timer, #coins, #combo, #served { font-size: 24px; font-weight: 800; }
+
+/* ---- order board ---- */
+#orders { margin-top: 14px; background: #26332a; border: 6px solid #8a5a2b; border-radius: 14px; padding: 10px 14px 14px; box-shadow: inset 0 0 0 2px #1d271f, 0 4px 0 rgba(0,0,0,.4); }
+#orders h2 { font-size: 15px; letter-spacing: 4px; color: #ffd23f; margin-bottom: 8px; }
+#order-slots { display: flex; gap: 12px; }
+.order-card {
+  flex: 1; background: #fff8ec; color: #3a1d0d; border-radius: 12px; padding: 10px 12px;
+  min-height: 108px; position: relative; box-shadow: 0 3px 0 rgba(0,0,0,.35);
+}
+.order-card.waiting { display: flex; align-items: center; justify-content: center; color: #b9a488; background: #efe6d2; border: 2px dashed #c9b48f; font-style: italic; }
+.order-num { position: absolute; top: 6px; right: 10px; font-weight: 800; color: #b3541e; font-size: 13px; }
+.order-items { display: flex; gap: 6px; flex-wrap: wrap; margin: 18px 0 8px; min-height: 34px; }
+.order-card .patience { height: 10px; background: #e5d5b8; border-radius: 6px; overflow: hidden; }
+.order-card .patience > div { height: 100%; background: #43aa4b; border-radius: 6px; transition: width .2s linear; }
+.order-card .patience.low > div { background: #e2483a; }
+.order-card .pay { font-size: 12px; font-weight: 800; color: #b3541e; margin-top: 6px; }
+
+/* ---- ingredient chips ---- */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px; background: #ffe9b8; border: 1px solid #e0b96a;
+  border-radius: 999px; padding: 3px 9px 3px 4px; font-size: 12px; font-weight: 700; color: #5a3a10;
+}
+.dot { width: 22px; height: 22px; border-radius: 50%; display: inline-block; border: 2px solid rgba(0,0,0,.18); }
+.dot.beef { background: radial-gradient(circle at 35% 35%, #a9714b, #6e3b1f); }
+.dot.tomato { background: radial-gradient(circle at 35% 35%, #ff7a6b, #d92b1f); }
+.dot.onion { background: radial-gradient(circle at 35% 35%, #e6c8f5, #9b59b6); }
+.dot.lettuce { background: radial-gradient(circle at 35% 35%, #a8e063, #4c9a2a); }
+.dot.cheese { background: radial-gradient(circle at 35% 35%, #ffe066, #f5a623); border-radius: 4px; }
+.dot.salsa { background: radial-gradient(circle at 35% 35%, #ff9d5c, #c0392b); }
+.dot.tortilla { background: radial-gradient(circle at 35% 35%, #ffe9b0, #e0b96a); }
+
+/* ---- kitchen stations ---- */
+#kitchen { display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: 12px; margin-top: 12px; }
+.station { background: #fff3d6; color: #3a1d0d; border-radius: 14px; padding: 12px; box-shadow: 0 4px 0 rgba(0,0,0,.35); }
+.station h3 { font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+.station .hint { font-size: 11px; color: #8a6a45; font-weight: 400; letter-spacing: 0; }
+.slots { display: flex; gap: 8px; margin-bottom: 10px; }
+.slot {
+  flex: 1; height: 74px; border-radius: 10px; border: 2px dashed #c9a86a; background: #f7e8c8;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  cursor: pointer; font-size: 11px; font-weight: 700; color: #7a5a2e; position: relative; overflow: hidden;
+}
+.slot:hover { border-color: #b3541e; }
+.slot.cooking { background: #3a3a3a; color: #ffd23f; border-style: solid; }
+.slot.ready { background: #d9f2c0; border: 2px solid #43aa4b; color: #2c6e2f; animation: wiggle .4s infinite alternate; }
+.slot.burnt { background: #2b2b2b; color: #ff8a7a; border: 2px solid #e2483a; }
+@keyframes wiggle { from { transform: rotate(-1deg); } to { transform: rotate(1deg); } }
+.slot .bar { position: absolute; left: 0; bottom: 0; height: 6px; background: #ff8c42; width: 0; }
+.slot .bar.done { background: #43aa4b; }
+.slot .emoji { font-size: 26px; }
+.bins { display: flex; gap: 8px; flex-wrap: wrap; }
+.bin {
+  flex: 1; min-width: 86px; padding: 9px 6px; border: none; border-radius: 10px; cursor: pointer;
+  background: #ff5a4e; color: #fff; font-weight: 800; font-size: 13px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  box-shadow: 0 3px 0 #a82c22; font-family: inherit;
+}
+.bin:hover { filter: brightness(1.1); }
+.bin:active { transform: translateY(2px); box-shadow: 0 1px 0 #a82c22; }
+.bin:disabled { opacity: .45; cursor: not-allowed; }
+.bin-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-block; border: 2px solid rgba(255,255,255,.6); }
+.beef-icon { background: radial-gradient(circle at 35% 35%, #a9714b, #6e3b1f); }
+.tomato-icon { background: radial-gradient(circle at 35% 35%, #ff7a6b, #d92b1f); }
+.onion-icon { background: radial-gradient(circle at 35% 35%, #e6c8f5, #9b59b6); }
+.lettuce-icon { background: radial-gradient(circle at 35% 35%, #a8e063, #4c9a2a); }
+.cheese-icon { background: radial-gradient(circle at 35% 35%, #ffe066, #f5a623); border-radius: 4px; }
+.salsa-icon { background: radial-gradient(circle at 35% 35%, #ff9d5c, #c0392b); }
+.tortilla-icon { background: radial-gradient(circle at 35% 35%, #ffe9b0, #e0b96a); }
+
+/* ---- plate ---- */
+#plate {
+  min-height: 108px; background: radial-gradient(circle at 50% 55%, #ffffff 0 34%, #e8e2d4 35% 100%);
+  border-radius: 50%; border: 3px solid #d8cbb2; display: flex; align-items: center; justify-content: center;
+  padding: 10px; margin-bottom: 10px;
+}
+#plate-items { display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; max-width: 260px; }
+.plate-empty { color: #a08a6a; font-style: italic; font-size: 13px; }
+.plate-layer { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; color: #5a3a10; }
+.plate-actions { display: flex; gap: 8px; margin-top: 10px; }
+#serve-btn {
+  flex: 2; padding: 12px; border: none; border-radius: 10px; background: #43aa4b; color: #fff;
+  font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #2c6e2f; font-family: inherit;
+}
+#serve-btn:hover:not(:disabled) { filter: brightness(1.1); }
+#serve-btn:disabled { opacity: .45; cursor: not-allowed; }
+#trash-btn {
+  flex: 1; padding: 12px 6px; border: none; border-radius: 10px; background: #8a6a45; color: #fff;
+  font-weight: 700; cursor: pointer; font-family: inherit;
+}
+
+/* ---- ready tray ---- */
+#tray { margin-top: 12px; background: #3d2b1f; border-radius: 14px; padding: 12px 14px; }
+#tray h3 { font-size: 14px; letter-spacing: 1px; color: #ffd23f; margin-bottom: 8px; }
+#tray .hint { font-size: 11px; color: #d8b48a; font-weight: 400; }
+#tray-items { display: flex; gap: 8px; flex-wrap: wrap; min-height: 44px; }
+.tray-empty { color: #a98d68; font-style: italic; font-size: 13px; }
+.tray-item {
+  display: inline-flex; align-items: center; gap: 6px; background: #fff8ec; color: #3a1d0d;
+  border-radius: 999px; padding: 6px 12px 6px 7px; font-weight: 800; font-size: 13px;
+  cursor: pointer; border: 2px solid #ffd23f;
+}
+.tray-item:hover { transform: scale(1.06); }
+
+/* ---- toast + overlay ---- */
+#toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px);
+  background: #1d271f; color: #ffd23f; font-weight: 800; padding: 12px 22px; border-radius: 999px;
+  opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; font-size: 15px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.5); z-index: 50; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.bad { color: #ff8a7a; }
+.overlay {
+  position: fixed; inset: 0; background: rgba(20, 10, 5, .82); display: flex;
+  align-items: center; justify-content: center; z-index: 100;
+}
+.overlay.hidden { display: none; }
+.overlay-card {
+  background: #fff8ec; color: #3a1d0d; border-radius: 18px; padding: 28px 30px; max-width: 520px;
+  text-align: center; box-shadow: 0 10px 0 #c98a2e;
+}
+.overlay-card h2 { font-size: 30px; color: #b3541e; margin-bottom: 12px; }
+.overlay-card p { font-size: 15px; line-height: 1.55; margin-bottom: 18px; }
+.overlay-stats { font-weight: 800; color: #2c6e2f; margin-top: 14px; }
+#start-btn {
+  padding: 14px 34px; border: none; border-radius: 12px; background: #ff5a4e; color: #fff;
+  font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #a82c22; font-family: inherit;
+}
+#start-btn:hover { filter: brightness(1.1); }
+.shake { animation: shake .3s; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
